@@ -25,4 +25,4 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ github.token }}
     - name: Publish the Docker image
-      run: docker push ghcr.io/momiji/momiji:${{github.ref_name}}
+      run: docker push ghcr.io/momiji/duplicity:${{github.ref_name}}
