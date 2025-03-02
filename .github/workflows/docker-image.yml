@@ -1,0 +1,28 @@
+name: Docker Image CI
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    
+    environment: docker-publish
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: docker build . --tag ghcr.io/momiji/duplicity:${{github.ref_name}}
+    - name: Log in to the Container registry
+      uses: docker/login-action@v3.3.0
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ github.token }}
+    - name: Publish the Docker image
+      run: docker push ghcr.io/momiji/momiji:${{github.ref_name}}
